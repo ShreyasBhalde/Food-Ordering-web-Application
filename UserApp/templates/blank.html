@@ -1,0 +1,131 @@
+{%extends "Mainpage1.html"%}
+
+{%block content%}
+<style>
+    header {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .fo {
+        color: #777;
+        border: 0px solid #afafaf;
+        width: 50%;
+        margin-left: 25%;
+        margin-top: 50px;
+        text-align: center;
+        padding: 5px;
+        padding-top: 20px;
+        border-radius: 3px;
+        box-shadow: 0px 0px 8px #777;
+        background: rgba(255, 255, 255, 0.6)
+    }
+
+    h1 {
+        margin: 0;
+    }
+
+    .menu {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .category {
+        flex-basis: 30%;
+        background-color: #fff;
+        padding: 1rem;
+        margin: 1rem 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    h2 {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+    }
+
+
+
+
+    .item-price {
+        font-weight: bold;
+    }
+
+    .heading {
+        text-align: center;
+    }
+
+    hr.solid {
+        border-top: 3px solid #bbb;
+    }
+
+    hr.dotted {
+        border-top: 3px dotted #bbb;
+    }
+</style>
+</head>
+
+<body>
+    <div class="fo">
+        <form method="post" action="/addtocart">
+            {%csrf_token%}
+            <section class="menu">
+                <div class="row">
+                    <h2 class="heading">{{Restaurants.Restaurant_name}}</h2>
+                    {%for menucategory in menucategorys%}
+                    <hr class="solid">
+                    <h3>{{menucategory.name}}</h3>
+                    <hr class="solid">
+                    {% for menuitem in menuitems %}
+                    <hr class="dotted">
+                    <ul>
+                        <li>
+                            <span class="item-Id">{{menuitem.id}}
+                                <input type="hidden" name="cid" value="{{menuitem.id}}" />
+                            </span>
+                            <span class="item-name">{{menuitem.name}}</span>
+                            <div class="qt">
+                                <span><select style="height: 30px; width:40px; " name="qty" class="form-control">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <span class="item-price">{{menuitem.price}}</span>
+                            <span><button type="submit" class="btn btn-outline-secondary btn-sm">Add to
+                                    cart</button></span>
+                        </li>
+                    </ul>
+                    {%endfor%}
+                    {%endfor%}
+                </div>
+            </section>
+    </div>
+</body>
+
+</html>
+</form>
+{%endblock%}

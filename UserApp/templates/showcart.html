@@ -1,0 +1,168 @@
+{%extends "Mainpage1.html" %}
+
+{%block content%}
+
+<style>
+  .fo {
+    color: #777;
+    border: 0px solid #afafaf;
+    width: 82%;
+    margin-left: 8%;
+    margin-top: 50px;
+    text-align: center;
+    padding: 5px;
+    padding-top: 20px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 8px #777;
+    background: rgba(255, 255, 255, 0.6)
+  }
+
+  .fa {
+    color: #777;
+    border: 0px solid #afafaf;
+    width: 40%;
+    margin-left: 50%;
+    margin-top: 45px;
+    text-align: center;
+    padding: 5px;
+    padding-top: 20px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 8px #777;
+    background: rgba(169, 74, 74, 0.6)
+  }
+
+
+  h1 {
+    text-align: center;
+    color: rgb(217, 25, 25);
+  }
+
+  .h3 {
+    text-align: right;
+    padding-right: 180px;
+    color: rgb(217, 25, 25);
+  }
+
+  .head {
+    color: rgb(217, 25, 25);
+  }
+
+  .link {
+    text-align: right;
+    padding-right: 180px;
+  }
+
+  .plus {
+    text-align: center;
+    align-items: center;
+  }
+</style>
+
+<script type="text/javascript">
+  function decrement(tid) {
+    txt = document.getElementById(tid);
+    val = parseInt(txt.value);
+    if (val > 1) {
+      txt.value = val - 1;
+    }
+  }
+  function increment(tid) {
+    txt = document.getElementById(tid);
+    val = parseInt(txt.value);
+    if (val < 5) {
+      txt.value = val + 1;
+    }
+
+  }
+</script>
+<div class="fo">
+  <h1> Cart Details</h1>
+  <table class="table">
+    <tr>
+      <th>item Id</th>
+      <th>Item Name</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Sub Total</th>
+    </tr>
+    {% for item in items%}
+    <form class="box" method="post" action="/modifycart">
+      {%csrf_token%}
+      <tr>
+        <td>{{item.menuitem.id}}
+          <input type="hidden" name="cid" value="{{item.menuitem.id}}" />
+        </td>
+        <td>{{item.menuitem.name}}</td>
+        <td>{{item.menuitem.price}}</td>
+        <div class="plus">
+          <td><button type="button" style="height:25px; width: 25px;" onclick="decrement('qty{{item.menuitem.id}}');"
+              value=" - " class="btn btn-secondary btn-sm"> - </button>
+        </div>
+        <input type="text" style="height:20px ; width:25px;" class="form" name="qty" id="qty{{item.menuitem.id}}"
+          size="1" value="{{item.qty}}" />
+        <button type="button" style="height:25px; width: 25px;" onclick="increment('qty{{item.menuitem.id}}');"
+          value=" + " class="btn btn-secondary btn-sm"> + </button>
+        <button type="submit" name="action" value="Update" class="btn btn-outline-secondary btn-sm">Update</button></td>
+        <td>{% widthratio item.menuitem.price 1 item.qty %}</td>
+        <td><button type="submit" name="action" value="Remove" class="btn btn-outline-secondary btn-sm">Remove</button>
+        </td>
+      </tr>
+    </form>
+    {%endfor%}
+  </table>
+  <hr />
+</div>
+
+<div class="fo">
+  <div class="head">
+    <h2>Delivery Address</h2>
+  </div>
+  <form method="post" action="/savedetails">
+    {%csrf_token%}
+    <div class="container">
+      <table class="table">
+        <tr>
+          <td>Full Name</td>
+          <td>
+            <input type="text" name="name" class="form-control" required>
+          </td>
+        </tr>
+        <tr>
+          <td>Address</td>
+          <td>
+            <input type="text" name="ad" class="form-control" required>
+          </td>
+        </tr>
+        <tr>
+          <td>City</td>
+          <td>
+            <input type="text" name="City" class="form-control" required>
+          </td>
+        </tr>
+        <tr>
+          <td>Zip</td>
+          <td>
+            <input type="text" name="Zip" class="form-control" required>
+          </td>
+        </tr>
+        <tr>
+          <td><button id="but" type="submit" class="btn btn-outline-secondary btn-sm">Save</button></td>
+        </tr>
+      </table>
+    </div>
+  </form>
+</div>
+
+<div class="fa">
+  <div class="h3">
+    <h3> Total Amount : {{request.session.total}}</h3>
+  </div>
+
+  <div class="link">
+    <a href="/makepayment">Proceed To make payement</a>
+  </div>
+</form>
+</div>
+</div>
+</div>
+{%endblock%}

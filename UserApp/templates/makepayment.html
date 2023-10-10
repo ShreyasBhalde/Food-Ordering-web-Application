@@ -1,0 +1,65 @@
+{%extends "Mainpage1.html"%}
+
+{%block content%}
+<style>
+    .fo {
+        color: #777;
+        border: 0px solid #afafaf;
+        width: 82%;
+        margin-left: 8%;
+        margin-top: 50px;
+        text-align: center;
+        padding: 5px;
+        padding-top: 20px;
+        border-radius: 3px;
+        box-shadow: 0px 0px 8px #777;
+        background: rgba(255, 255, 255, 0.6)
+    }
+
+    h2 {
+        text-align: center;
+        color: rgb(217, 25, 25);
+    }
+</style>
+
+
+<div class="fo">
+    <h2>Make Payment!!</h2>
+    <form method="post" action="/receipt">
+        {%csrf_token%}
+        <table class="table">
+            <tr>
+                <td>Enter Card No.</td>
+                <td>
+                    <input type="text" name="cardno" class="form-control" required />
+                </td>
+            </tr>
+            <tr>
+                <td>Enter CVV No.</td>
+                <td>
+                    <input type="text" name="cvv" class="form-control" required />
+                </td>
+            </tr>
+            <tr>
+                <td>Enter Expiry</td>
+                <td>
+                    <input type="text" name="expiry" class="form-control" required />
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>Amount</td>
+                <td>
+                    <input type="text" name="amount" class="form-control" readonly value="{{request.session.total}}" />
+                </td>
+            </tr>
+            <tr>
+                <td><button type="submit" class="btn btn-success">Make Payment</button></td>
+                <td></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+{%endblock%}
